@@ -4,9 +4,7 @@ import './Home.css';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
 import {Button} from '@mui/material';
-import { Routes, Route, Link } from "react-router-dom";
-import Hooks from '../hooks/Hooks';
-import Fetching from '../fetching/Fetching';
+import ExtButton from '../../components/atoms/Button/Button';
 
 const queryClient = new QueryClient();
 
@@ -17,14 +15,17 @@ const context = {
 
 const MyContext = createContext(context);
 
-
 function App() {
 
   useEffect(() => {
-    document.title = `Kliknięto ${state} razy`;
+    console.log('componentDidMount Triggered');// componentDidMount
+    return () => console.log('componentWillUnmount triggered !'); // componentWillUnmount
+  }, []); // componentDidMount
 
-    return () => alert('Bye');
-  }, []);
+  useEffect(() => {
+    document.title = `Kliknięto ${state} razy`; // componentShouldUpdate
+    console.log('componentShouldUpdate Triggered');// componentShouldUpdate
+  });
 
   const getRandomized = () => {
     return count ** 3;
@@ -35,13 +36,7 @@ function App() {
   }
   const [test, setTest] = useState();
   const [state, setState] = useState(0);
-
   const [count, setCount] = useState(0);
-  //componentShouldUpdate
-  // componentDidUpdate
-
-  // componentWillUnmount
-
   const callback = useCallback(getRandomizedCallback, [count])
   const memoized = useMemo(getRandomized, [count]);
   const happy = useContext(MyContext)
@@ -51,14 +46,14 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <div className="App">
           <header className="App-header">
+            <h1 style={{color: 'white'}}>Clicked times: {memoized}</h1>
             <img src={logo} className="App-logo" alt="logo" />
             <p>
               Edit <code>src/App.tsx</code> and save to reload.
             </p>
-
             <Button onClick={() => setState(state + 1)}>Klik</Button>
             <Button onClick={() => setCount(count + 1)}>Klik 1</Button>
-            <button onClick={() => console.log('test')}>dsadasdsa</button>
+            <ExtButton variant={'outlined'} text={'Get randomized'} click={callback}/>
             <a
               className="App-link"
               href="https://reactjs.org"
@@ -67,7 +62,7 @@ function App() {
             >
               Learn React
             </a>
-            <h1 style={{color: 'white'}}>{memoized}</h1>
+
           </header>
         </div>
         <ReactQueryDevtools initialIsOpen />

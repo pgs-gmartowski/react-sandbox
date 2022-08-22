@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './pages/home/Home';
 import reportWebVitals from './reportWebVitals';
-import {BrowserRouter, Link, Outlet, Route, Routes} from 'react-router-dom';
+import {BrowserRouter, Outlet, Route, Routes} from 'react-router-dom';
 import Hooks from './pages/hooks/Hooks';
 import Fetching from './pages/fetching/Fetching';
-import {Avatar, Menu, MenuItem} from '@mui/material';
+import Menu from './components/molecules/Menu/Menu';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,34 +14,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Menu open={true}>
-        <MenuItem>
-          <Link to="/">Home</Link>
-        </MenuItem>
-        <MenuItem>
-          <Link to="/hooks">Hooks</Link>
-        </MenuItem>
-      <MenuItem>
-        <Link to="/fetching">Fetching</Link>
-        </MenuItem>
-      </Menu>
-      <Box component="nav">
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-        >
-          {drawer}
-        </Drawer>
-      </Box>
+      <Menu />
       <Routes>
         <Route path={''} element={<App />} />
         <Route path={'/hooks'} element={<Hooks />} />
